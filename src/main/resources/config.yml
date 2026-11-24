@@ -10,6 +10,10 @@ reward-command: 'money give %player% %amount%'
 # 数据写盘间隔（秒）
 save-interval-seconds: 300
 
+# 在线时长结算间隔（秒），1~300
+# 累计按时长计算，调大只是减少每秒开销，不会少算时间；默认 5 秒
+tick-seconds: 5
+
 # 只允许这个玩家使用 reload/reset；留空 = 按 mistonline.admin 权限
 # 查询命令 /mistonline 不受此限制
 command-owner: ''

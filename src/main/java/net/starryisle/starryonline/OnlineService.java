@@ -41,6 +41,14 @@ public final class OnlineService {
     private final String weeklyMessage;
     private final String failedMessage;
     private final Map<UUID, OnlineData> players = new HashMap<>();
+    /** 结算任务的调度间隔（tick）。累计按时长计算，间隔只影响结算粒度。 */
+    private final long tickTicks;
+
+    /** 日期/周 key 缓存：一天才变一次，没必要每个 tick 都算。 */
+    private static final long KEY_REFRESH_MILLIS = 60_000L;
+    private String cachedDailyKey;
+    private String cachedWeeklyKey;
+    private long nextKeyRefreshMillis;
 
     private BukkitTask tickTask;
     private BukkitTask saveTask;
@@ -52,6 +60,9 @@ public final class OnlineService {
         this.zone = parseZone(plugin.getConfig().getString("timezone", "Asia/Shanghai"));
         this.dailyTiers = parseTiers("daily.tiers");
         this.weeklyTiers = parseTiers("weekly.tiers");
+        long tickSeconds = Math.max(1L, Math.min(300L,
+                plugin.getConfig().getLong("tick-seconds", 5L)));
+        this.tickTicks = tickSeconds * 20L;
         long configuredSeconds = plugin.getConfig().getLong("hourly.seconds", 0L);
         if (configuredSeconds <= 0L) {
             configuredSeconds = Math.max(1L,
@@ -72,7 +83,9 @@ public final class OnlineService {
     }
 
     public void start() {
-        tickTask = Bukkit.getScheduler().runTaskTimer(plugin, this::tick, 20L, 20L);
+        // 累计逻辑用的是时间戳差（now - lastAccrualMillis），不是 tick 计数，
+        // 所以把调度间隔从 1 秒放宽到 tick-seconds 秒不会改变结算结果。
+        tickTask = Bukkit.getScheduler().runTaskTimer(plugin, this::tick, tickTicks, tickTicks);
         long interval = Math.max(30L, plugin.getConfig().getLong("save-interval-seconds", 300L)) * 20L;
         saveTask = Bukkit.getScheduler().runTaskTimer(plugin, this::saveAll, interval, interval);
         prune();
@@ -284,10 +297,17 @@ public final class OnlineService {
     }
 
     private void tick() {
-        LocalDate date = today();
-        String dailyKey = date.toString();
-        String weeklyKey = weekKey(date);
         long now = System.currentTimeMillis();
+        // 跨天/跨周最多晚 KEY_REFRESH_MILLIS 生效；省掉每 tick 的 LocalDate.now
+        // 和 WeekFields 计算（实测占本插件 70% 以上的开销）。
+        if (now >= nextKeyRefreshMillis) {
+            LocalDate date = today();
+            cachedDailyKey = date.toString();
+            cachedWeeklyKey = weekKey(date);
+            nextKeyRefreshMillis = now + KEY_REFRESH_MILLIS;
+        }
+        String dailyKey = cachedDailyKey;
+        String weeklyKey = cachedWeeklyKey;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             UUID uuid = player.getUniqueId();

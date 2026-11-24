@@ -71,6 +71,8 @@ weekly:
 
 在线时间按真实时间累计，不按 tick 数，服务器掉 TPS 时不会少算。
 
+结算间隔由 `tick-seconds` 控制（默认 `5`，范围 1~300）。累计是按时间戳差算的，调大只减少每秒开销，不会少算在线时长；跨天/跨周重置最多延迟一个缓存周期（60 秒）。
+
 ## 注意
 
 - 不要和其他在线奖励插件（QZOnlineRewards、MistOnlineReward、SpectrumOnlineReward 等）同时启用，否则会重复发奖。
