@@ -17,7 +17,7 @@
 mvn package
 ```
 
-产物：`target/MistOnline-1.0.1.jar`
+产物：`target/MistOnline-1.0.2.jar`
 
 ## 安装
 

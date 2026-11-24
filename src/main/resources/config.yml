@@ -29,28 +29,28 @@ daily:
     - hours: 1
       coins: 50
     - hours: 2
-      coins: 50
+      coins: 80
     - hours: 3
-      coins: 50
+      coins: 110
     - hours: 4
-      coins: 50
+      coins: 140
     - hours: 5
-      coins: 100
+      coins: 170
     - hours: 6
-      coins: 500
+      coins: 250
 
 # 每周档位：4 个档位，最高 50 小时
 # coins 是到达该档时发放的金币，4 档合计 = 2500
 weekly:
   tiers:
     - hours: 10
-      coins: 250
+      coins: 300
     - hours: 20
-      coins: 250
-    - hours: 30
       coins: 500
+    - hours: 30
+      coins: 700
     - hours: 50
-      coins: 1500
+      coins: 1000
 
 # 聊天提示
 messages:

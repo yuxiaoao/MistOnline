@@ -6,7 +6,7 @@
 
     <groupId>net.starryisle</groupId>
     <artifactId>mistonline</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
     <name>MistOnline</name>
 
@@ -32,7 +32,7 @@
     </dependencies>
 
     <build>
-        <finalName>MistOnline-1.0.1</finalName>
+        <finalName>MistOnline-1.0.2</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
