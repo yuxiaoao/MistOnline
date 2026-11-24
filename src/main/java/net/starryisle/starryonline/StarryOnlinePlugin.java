@@ -37,6 +37,9 @@ public final class StarryOnlinePlugin extends JavaPlugin {
         if (listener != null) {
             HandlerList.unregisterAll(listener);
         }
+        // Re-read config.yml from disk: getConfig() is cached, so rebuilding the
+        // service alone would keep using the old tier values.
+        reloadConfig();
         service = new OnlineService(this);
         listener = new PlayerListener(service);
         getServer().getPluginManager().registerEvents(listener, this);

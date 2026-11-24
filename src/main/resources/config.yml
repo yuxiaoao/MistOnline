@@ -23,32 +23,34 @@ hourly:
   coins: 20
 
 # 每日档位：6 个档位，最高 6 小时
+# coins 是到达该档时发放的金币，6 档合计 = 800
 daily:
   tiers:
     - hours: 1
       coins: 50
     - hours: 2
-      coins: 100
+      coins: 50
     - hours: 3
-      coins: 150
+      coins: 50
     - hours: 4
-      coins: 200
+      coins: 50
     - hours: 5
-      coins: 300
+      coins: 100
     - hours: 6
-      coins: 800
+      coins: 500
 
 # 每周档位：4 个档位，最高 50 小时
+# coins 是到达该档时发放的金币，4 档合计 = 2500
 weekly:
   tiers:
     - hours: 10
-      coins: 500
+      coins: 250
     - hours: 20
-      coins: 1000
+      coins: 250
     - hours: 30
-      coins: 2000
+      coins: 500
     - hours: 50
-      coins: 5000
+      coins: 1500
 
 # 聊天提示
 messages:
