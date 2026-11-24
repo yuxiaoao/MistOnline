@@ -1,0 +1,58 @@
+# MistOnline - 在线时长奖励
+
+# 时区：每日 0 点、每周一 0 点按这个时区重置
+timezone: Asia/Shanghai
+
+# 奖励发放命令：%player% 玩家名，%amount% 金币数
+# 需要经济插件支持对应的控制台命令；默认适配 XConomy
+reward-command: 'money give %player% %amount%'
+
+# 数据写盘间隔（秒）
+save-interval-seconds: 300
+
+# 只允许这个玩家使用 reload/reset；留空 = 按 mistonline.admin 权限
+# 查询命令 /mistonline 不受此限制
+command-owner: ''
+
+# 超过多少天没有上线就清理该玩家数据；0 = 永不清理
+data-retention-days: 90
+
+# 每小时固定奖励
+hourly:
+  minutes: 60
+  coins: 20
+
+# 每日档位：6 个档位，最高 6 小时
+daily:
+  tiers:
+    - hours: 1
+      coins: 50
+    - hours: 2
+      coins: 100
+    - hours: 3
+      coins: 150
+    - hours: 4
+      coins: 200
+    - hours: 5
+      coins: 300
+    - hours: 6
+      coins: 800
+
+# 每周档位：4 个档位，最高 50 小时
+weekly:
+  tiers:
+    - hours: 10
+      coins: 500
+    - hours: 20
+      coins: 1000
+    - hours: 30
+      coins: 2000
+    - hours: 50
+      coins: 5000
+
+# 聊天提示
+messages:
+  hourly: '&8[&6在线奖励&8] &a在线 &e{time} &a，&6+{coins} &a金币已到账'
+  daily: '&8[&6在线奖励&8] &a每日在线 &e{time} &a达成，&6+{coins} &a金币已到账'
+  weekly: '&8[&6在线奖励&8] &a本周在线 &e{time} &a达成，&6+{coins} &a金币已到账'
+  reward-failed: '&c奖励发放失败，请联系管理员。'
